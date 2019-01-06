@@ -1,2 +1,3 @@
-# command-line-calculator
-Command line calculator written in Swift.
+# Command Line Calculator in Swift
+
+Article coming soon!
