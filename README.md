@@ -74,11 +74,54 @@ For example, `"45 + -3"` yields these `Glyph` values:
 ]
 ```
 
-At this point we know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Numbers are still broken up into individual digit values. This ambiguity can be reduced thanks to the metadata provided by `Glyph` to create more meaningful _tokens_.
+At this point we know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Numbers are still broken up into individual digit values. This ambiguity can be reduced, thanks to the metadata provided by `Glyph`, to create more meaningful _tokens_.
 
 ### Glyphs -> Tokens
 
-todo
+A `Token` is a symbol created from one or more `Glyph` values. 
+
+```swift
+enum Token {
+
+    case add
+    case divide
+    case multiply
+    case number(Number)
+    case parenthesisLeft(negated: Bool)
+    case parenthesisRight
+    case subtract
+    
+}
+```
+
+The `.digit`, `.decimalSeparator`, and `.subtractOrNegate` glyphs are combined [tokenizer.swift](calc/glyphs%20-%3E%20tokens/tokenizer.swift) to create a `.number` token's associated `Number` value.
+
+```swift
+enum Number {
+
+    case int(Int)
+    case double(Double)
+    
+}
+```
+
+For example, `"10 * (5 - 1) + 2.0"` is represented by these `Token`s:
+
+```swift
+[
+    .number(.int(10)),
+    .multiply,
+    .parenthesisLeft(negated: false),
+    .number(.int(5)),
+    .subtract,
+    .number(.int(1)),
+    .parenthesisRight,
+    .add,
+    .number(.double(2.0))
+]
+```
+
+Having tokens brings us much closer to being able to create an expression tree and calculate the answer, but we're not quite close enough yet. The biggest gulf between a token array and an expression tree is that the former is a flat list while the latter is a highly nested binary tree. It would be easier to jump from token array to expression tree with the help of an intermediate representation which eliminates parentheses, by shifting focus to operators and their operands, called _operations_.
 
 ### Tokens -> Operations
 
