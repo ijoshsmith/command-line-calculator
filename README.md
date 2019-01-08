@@ -105,7 +105,7 @@ enum Number {
 }
 ```
 
-For example, `"10 * (5 - 1) + 2.0"` is represented by these `Token`s:
+For example, `"10 * (5 - 1) + 2.0"` is represented by these `Token` values:
 
 ```swift
 [
