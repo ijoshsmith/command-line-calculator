@@ -12,7 +12,7 @@ This calculator was written as a programming exercise, and is not intended for g
 
 ## Motivation
  
-Sure, macOS comes with the built-in Calculator app and `bc` bash program. And there are plenty of free online calculators. The world doesn't need another way to crunch numbers on their Macs. But I didn't let that stop me from solving what I found to be a very interesting problem!
+Sure, macOS comes with the built-in Calculator app and `bc` bash program. And there are plenty of free online calculators. The world doesn't need another way to crunch numbers on their Macs. But I didn't let that stop me from solving a very interesting problem!
 
 This calculator accepts input like `"1 + 2 * 3 + -(4 - 5)"`, crunches the numbers according to the standard [order of operations](https://en.wikipedia.org/wiki/Order_of_operations), and prints out `8`. Creating a simple solution for this problem was a fun, tricky challenge.
 
@@ -38,7 +38,40 @@ The following sections describe each step in this data transformation pipeline.
 
 ### Text -> Glyphs
 
-todo
+The user input is a string which may or may not contain valid arithmetic expressions. Each character in the string is  categorized by trying to create a `Glyph` value to represent it.
+
+```swift
+enum Glyph {
+
+    case add
+    case decimalSeparator
+    case digit(UnicodeScalar)
+    case divide
+    case multiply
+    case parenthesisLeft
+    case parenthesisRight
+    case subtractOrNegate
+    case whitespace
+
+}
+```
+
+Note: The `digit` case has an associated `UnicodeScalar` value. Since Swift strings are Unicode-compliant each character technically might consist of multiple scalars, but for the set of supported symbols in this program we don't need to worry about that. When you see `UnicodeScalar` in this program, just think of it as a character in a string.
+
+Analysis of each user input character occurs in [input-parser.swift](calc/text%20-%3E%20glyphs/input-parser.swift). It uses `CharacterSet` from the `Foundation` framework to categorize a character. If it encounters an unrecognized symbol, an error is returned.
+
+For example, `"21 * 2"` yields these `Glyph` values:
+
+```swift
+[
+    .digit("2"),
+    .digit("1"),
+    .whitespace,
+    .multiply,
+    .whitespace,
+    .digit("2")
+]
+```
 
 ### Glyphs -> Tokens
 
