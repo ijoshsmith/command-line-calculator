@@ -18,11 +18,23 @@ This calculator accepts input like `"1 + 2 * 3 + -(4 - 5)"`, crunches the number
 
 ## Data Transformations
 
-At the highest level, this program turns a string into either a number or an error message. Assuming the user provides valid input, the next level down can be viewed as turning a string into a tree of arithmetic expressions. A properly constructed expression tree can be recursively evaluated to produce the correct number to output. This concept can be visualized as so:
+At the highest level, this program turns a string into either a number or an error message. Assuming the user provides valid input, the next level down involves turning a string into a tree of arithmetic expressions. A properly constructed expression tree can be recursively evaluated to produce the correct number to output. This concept can be visualized as so:
 
 ![expression tree](images/expression-tree.png)
 
-Each of the following sub-sections describes a data transformation that moves from the user input to an output.
+This program does not leap directly from user input to an expression tree. There are multiple data transformations involved, each of which analyzes incoming data and emits different data morphed one step closer to the final result. These data transformations are piped together, as seen in this method from [main.swift](calc/main.swift):
+
+```swift
+func calculate(_ input: String) -> CalcResult<Number> {
+    return InputParser.createGlyphs(from: input)
+        .then(Tokenizer.createTokens(fromGlyphs:))
+        .then(Operationizer.createOperations(fromTokens:))
+        .then(Expressionizer.createExpression(fromOperations:))
+        .then(Calculator.evaluate(expression:))
+}
+```
+
+The following sections describe each step in this data transformation pipeline.
 
 ### Text -> Glyphs
 
