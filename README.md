@@ -60,7 +60,7 @@ Note: The `digit` case has an associated `UnicodeScalar` value. Since Swift stri
 
 Analysis of each user input character occurs in [input-parser.swift](calc/text%20-%3E%20glyphs/input-parser.swift). It uses `CharacterSet` from the `Foundation` framework to categorize a character. If it encounters an unrecognized symbol, an error is returned.
 
-For example, `"21 * 2"` yields these `Glyph` values:
+For example, `"21 * -2"` yields these `Glyph` values:
 
 ```swift
 [
@@ -69,9 +69,12 @@ For example, `"21 * 2"` yields these `Glyph` values:
     .whitespace,
     .multiply,
     .whitespace,
+    .subtractOrNegate,
     .digit("2")
 ]
 ```
+
+At this point we still know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Things are still ambiguous, so let's make use of the metadata provided by the `Glyph` values to create more meaningful _tokens_.
 
 ### Glyphs -> Tokens
 
