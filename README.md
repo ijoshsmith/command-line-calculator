@@ -121,7 +121,7 @@ For example, `"10 * (5 - 1) + 2.0"` is represented by these `Token` values:
 ]
 ```
 
-Having tokens brings us much closer to being able to create an expression tree and calculate the answer, but we're not quite close enough yet. The biggest gulf between a token array and an expression tree is that the former is a flat list while the latter is a highly nested binary tree. It would be easier to jump from token array to expression tree with the help of an intermediate representation which eliminates parentheses, by shifting focus to operators and their operands, called _operations_.
+Having tokens brings us much closer to being able to create an expression tree and calculate the answer, but we're not quite close enough yet. The biggest gulf between a token array and an expression tree is that the former is a flat list while the latter is a highly nested binary tree. It would be easier to jump from token array to expression tree with the help of an intermediate representation which begins the nesting process by shifting focus to operators and their operands, called _operations_.
 
 ### Tokens -> Operations
 
