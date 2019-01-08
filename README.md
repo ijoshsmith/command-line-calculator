@@ -94,7 +94,7 @@ enum Token {
 }
 ```
 
-The `.digit`, `.decimalSeparator`, and `.subtractOrNegate` glyphs are combined [tokenizer.swift](calc/glyphs%20-%3E%20tokens/tokenizer.swift) to create a `.number` token's associated `Number` value.
+The `.digit`, `.decimalSeparator`, and `.subtractOrNegate` glyphs are combined in [tokenizer.swift](calc/glyphs%20-%3E%20tokens/tokenizer.swift) to create a `.number` token's associated `Number` value.
 
 ```swift
 enum Number {
