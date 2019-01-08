@@ -74,7 +74,7 @@ For example, `"21 * -2"` yields these `Glyph` values:
 ]
 ```
 
-At this point we still know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Things are still ambiguous, so let's make use of the metadata provided by the `Glyph` values to create more meaningful _tokens_.
+At this point we still know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Numbers are still just individual digit values. We can reduce ambiguity by using the metadata provided by `Glyph` values to create more meaningful _tokens_.
 
 ### Glyphs -> Tokens
 
