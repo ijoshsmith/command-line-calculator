@@ -74,7 +74,7 @@ For example, `"45 + -3"` yields these `Glyph` values:
 ]
 ```
 
-At this point we still know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Numbers are still broken up into individual digit values. This ambiguity can be reduced via the metadata provided by `Glyph` to create more meaningful _tokens_.
+At this point we know very little about what the user input means. The presence of a `-` character might mean subtraction or negation (hence the `Glyph` case named `subtractOrNegate`). Numbers are still broken up into individual digit values. This ambiguity can be reduced thanks to the metadata provided by `Glyph` to create more meaningful _tokens_.
 
 ### Glyphs -> Tokens
 
