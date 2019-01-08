@@ -18,7 +18,7 @@ This calculator accepts input like `"1 + 2 * 3 + -(4 - 5)"`, crunches the number
 
 ## Data Transformations
 
-At the highest level, this program turns a string into either a number or an error message. Assuming the user provides valid input, the next level down involves turning a string into a tree of arithmetic expressions. A properly constructed expression tree can be recursively evaluated to produce the correct number to output. This concept can be visualized as so:
+At the highest level, this program turns a string into either a number or an error message. Assuming the user provides valid input, the next level down involves turning a string into a tree of arithmetic expressions. A properly constructed expression tree can be recursively evaluated to calculate the correct answer. An expression tree can be visualized like this:
 
 ![expression tree](images/expression-tree.png)
 
