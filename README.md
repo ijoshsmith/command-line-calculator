@@ -60,17 +60,17 @@ Note: The `digit` case has an associated `UnicodeScalar` value. Since Swift stri
 
 Analysis of each user input character occurs in [input-parser.swift](calc/text%20-%3E%20glyphs/input-parser.swift). It uses `CharacterSet` from the `Foundation` framework to categorize a character. If it encounters an unrecognized symbol, an error is returned.
 
-For example, `"44 + -2"` yields these `Glyph` values:
+For example, `"45 + -3"` yields these `Glyph` values:
 
 ```swift
 [
     .digit("4"),
-    .digit("4"),
+    .digit("5"),
     .whitespace,
     .add,
     .whitespace,
     .subtractOrNegate,
-    .digit("2")
+    .digit("3")
 ]
 ```
 
