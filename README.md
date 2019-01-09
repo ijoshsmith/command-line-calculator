@@ -166,12 +166,50 @@ At this point in the data transformation pipeline we have a hierarchical data fo
 
 ### Operations -> Expression
 
-todo
+An `Expression` is the highest abstraction level in the calculator's data transformation pipeline.
+
+```swift
+indirect enum Expression {
+
+    // Initial value
+    case empty
+
+    // Leaf node
+    case number(Number)
+
+    // Branch nodes
+    case add(Expression, Expression)
+    case divide(Expression, Expression)
+    case multiply(Expression, Expression)
+    case subtract(Expression, Expression)
+    
+}
+```
+
+Valid user input becomes an `Expression` value, which might be a single expression or a tree of expressions.
+
+![expression tree](images/expression-tree.png)
+
+Transforming an `Operation` array into an `Expression` tree involves two steps.
+1. The `Operation` array is mapped to all possible `Expression` values (see [expressionizer.swift](calc/operations%20-%3E%20expression/expressionizer.swift)).
+2. The array of all possible expressions is combined into an expression tree (see [expression-combining.swift](calc/operations%20-%3E%20expression/expression-combining.swift)).
+
+Applying the order of operations occurs during the second step. I found this a particularly tricky problem, it's worth a look.
+
+All that's left to do is evaluate the expression and calculate an answer.
 
 ### Expression -> Calculation
 
-todo
+Calculating an answer involves recursing through the expression tree and accumulating a number. Recursing the nodes bottom-up and left-to-right ensures the expressions are evaluated according to the order of operations, as seen in [calculator.swift](calc/expression%20-%3E%20calculation/calculator.swift).
+
+## But…how does it work?
+
+This article describes the data transformations involved with calculating an answer, but it doesn't show how they work. Each section above links to relevant Swift file(s) that implement the transformations. I leave exploring those files up to you, if you're interested.
 
 ## Programming Exercises
 
-todo
+Do you find this stuff as interesting as I do? Are you looking to get your hands dirty? If so, clone or download this repository and give these challenges a go!
+
+1. Add support for `^` as an exponentiation operator. For example, `2 ^ 3` would evaluate to `8`.
+2. Add support for the (unnecessary) unary `+` operator, which does not alter the value of its operand. It should be able to precede either a number or a left parenthesis. For example, `2 + +(4 - +5)`.
+3. Add support for a locale-dependent decimal separator. Currently the program is hard-coded to use a decimal point, like `3.14`, but some cultures use a different separator, such as `3,14`. Check [NSLocale.decimalSeparator](https://developer.apple.com/documentation/foundation/nslocale/1643064-decimalseparator) for the appropriate separator to use.
