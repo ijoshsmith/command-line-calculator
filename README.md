@@ -8,7 +8,7 @@ This repository contains a calculator program written in Swift 4.2 that can be u
 
 ## Disclaimer 
 
-This calculator was written as a programming exercise, and is not intended for general usage. Use of the calculator outside of its didactic capacity is strongly discouraged. The author claims no responsibility for problems caused by incorrect values produced by the calculator. Use at your own risk.
+The calculator program in this repository was written as a programming exercise, and is not intended for general usage. Using the calculator outside of its didactic capacity is strongly discouraged. The author is not to be held responsible for problems caused by or related to incorrect values produced by the program.
 
 ## Motivation
  
@@ -94,7 +94,7 @@ enum Token {
 }
 ```
 
-Tokens are created from glyphs in [tokenizer.swift](calc/glyphs%20-%3E%20tokens/tokenizer.swift). This involves determining if `-` means to subtract or negate something, getting rid of whitespace, and combining the `.digit`, `.decimalSeparator`, and `.subtractOrNegate` glyphs to create a `.number` token's associated `Number` value.
+Tokens are created from glyphs in [tokenizer.swift](calc/glyphs%20-%3E%20tokens/tokenizer.swift). This involves determining if `-` means to subtract or negate something, getting rid of whitespace, and combining various glyphs to create a `.number` token's associated `Number` value.
 
 ```swift
 enum Number {
@@ -125,7 +125,44 @@ Having tokens brings us much closer to being able to create an expression tree a
 
 ### Tokens -> Operations
 
-todo
+An `Operation` represents either an operator or operand in a calculation.
+
+```swift
+indirect enum Operation {
+
+    case binaryOperator(BinaryOperator)
+    enum BinaryOperator {
+        case add, divide, multiply, subtract
+    }
+
+    case operand(Operand)
+    enum Operand {
+        case number(Number)
+        case parenthesizedOperations([Operation], negated: Bool)
+    }
+    
+}
+```
+
+This data representation categorizes a token into only two possible values: `.binaryOperator` or `.operand`. An operand can either be a numeric value or a nested `Operation` array. The code in [operationizer.swift](calc/tokens%20-%3E%20operations/operationizer.swift) creates operations from tokens.
+
+For example, `"(7 + 3) * 3 + 12"` is represented by these operations:
+
+```swift
+[
+    .operand(.parenthesizedOperations([
+        .operand(.number(.int(7))),
+        .binaryOperator(.add),
+        .operand(.number(.int(3)))
+        ], negated: false)),
+    .binaryOperator(.multiply),
+    .operand(.number(.int(3))),
+    .binaryOperator(.add),
+    .operand(.number(.int(12)))
+]
+```
+
+At this point in the data transformation pipeline we have a hierarchical data format with all of the raw material needed to perform an arithmetic calculation. However, it does not include any notion of arithmetic's [order of operations](https://en.wikipedia.org/wiki/Order_of_operations) (remember BEDMAS or PEMDAS from grade school?). In other words, having an `Operation` array does not help us calculate `1 + 2 * 3` and get `7` instead of `9`. Calculating each operation in the correct order occurs after transforming operations into an _expression_.
 
 ### Operations -> Expression
 
