@@ -162,7 +162,7 @@ For example, `"(7 + 3) * 3 + 12"` is represented by these operations:
 ]
 ```
 
-At this point in the data transformation pipeline we have a hierarchical data format with all of the raw material needed to perform an arithmetic calculation. However, it does not include any notion of arithmetic's [order of operations](https://en.wikipedia.org/wiki/Order_of_operations) (remember BEDMAS or PEMDAS from grade school?). In other words, having an `Operation` array does not help us calculate `1 + 2 * 3` and get `7` instead of `9`. Calculating each operation in the correct order occurs after transforming operations into an _expression_.
+At this point in the data transformation pipeline we have a hierarchical data format with all of the raw material needed to perform an arithmetic calculation. However, it does not include any notion of arithmetic's [order of operations](https://en.wikipedia.org/wiki/Order_of_operations) (remember BEDMAS or PEMDAS from grade school?). Having an `Operation` array does not help us calculate `1 + 2 * 3` and get `7` instead of `9`. Calculating each operation in the correct order can occur after transforming operations into an _expression_.
 
 ### Operations -> Expression
 
